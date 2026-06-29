@@ -367,6 +367,13 @@ button {
     --texto-blanco: #ffffff;
 }
 
+/* Evita problemas de ancho en móviles por layouts con fixed/calc */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
 /* =========================
    BOTONES PERSONALIZADOS
 ========================= */
@@ -1229,8 +1236,18 @@ th, td {
         display: none;
     }
 
+    /* Sidebar y contenido (fix móvil) */
     .sidebar {
         width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        height: auto;
+    }
+
+    .app-topbar {
+        position: sticky;
+        top: 0;
     }
 
     .app-sidebar {
@@ -1239,16 +1256,26 @@ th, td {
         width: 100%;
         height: auto;
         border-radius: 0 0 14px 14px;
+        overflow: visible;
+        margin-bottom: 8px;
+        box-shadow: none;
+    }
+
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 16px;
     }
 
     .container {
         flex-direction: column;
     }
-
-    .content {
-        padding: 16px;
-    }
 }
+
 
 .btn:hover {
     transform: scale(1.1);

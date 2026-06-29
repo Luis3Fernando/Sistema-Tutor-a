@@ -1,57 +1,6 @@
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 <?php require_once __DIR__ . '/../layouts/sidebar.php'; ?>
 
-<style>
-    :root { --unamba-blue: #003366; --unamba-gold: #C5A059; }
-    body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
-    .header-custom { background: var(--unamba-blue); color: white; border-radius: 12px 12px 0 0; padding: 20px; }
-    .card-academic { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #fff; }
-    .badge-presente { background-color: #d1e7dd; color: #0f5132; }
-    .badge-ausente { background-color: #f8d7da; color: #842029; }
-    .btn-download { color: var(--unamba-blue); border: 1px solid var(--unamba-blue); }
-    .btn-download:hover { background: var(--unamba-blue); color: white; }
-
-    /* Botón Volver Estilo Senior */
-.btn-back-senior {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--unamba-blue); /* Tu azul oscuro */
-    color: #ffffff !important;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-}
-
-/* Icono dentro del botón */
-.btn-back-senior i {
-    font-size: 1.4rem;
-    margin-right: 8px;
-    transition: transform 0.3s ease;
-}
-
-/* Efectos Hover */
-.btn-back-senior:hover {
-    background-color: #001e3d; /* Un azul un poco más oscuro al presionar */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px); /* Pequeño salto hacia arriba */
-}
-
-/* Animación de la flecha al pasar el mouse */
-.btn-back-senior:hover i {
-    transform: translateX(-5px);
-}
-
-/* Efecto Click */
-.btn-back-senior:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-</style>
 
 <div class="container-fluid px-4 py-4">
     <div class="mb-4">

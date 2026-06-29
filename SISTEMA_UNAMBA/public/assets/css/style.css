@@ -1962,20 +1962,84 @@ main.sesion-ui .sesion-card-header h3 {
         width: 100%;
     }
 
+    /* Evita márgenes raros en móviles (por layouts con sidebar fixed + padding) */
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 16px;
+    }
+
     /* Fix para que la tabla no rompa el layout */
     .table-responsive {
         border: 0;
         margin-bottom: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .table-responsive table {
         min-width: 900px; /* Permite scroll horizontal interno */
     }
-    
+
+    /* Gráficos más compactos */
     .chart-container {
-        height: 250px;
+        height: 240px;
+    }
+
+    /* Reduce header y densidad visual en móvil */
+    #tablaDetalleAdmin {
+        font-size: 12px;
     }
 }
+
+/* Ajustes PC (evita que crezca demasiado o quede corto) */
+@media (min-width: 769px) {
+    /* PC: alinear el contenido con el sidebar real (.app-sidebar = 290px) */
+    .content {
+        margin-left: 20px;
+        width: calc(100% - 290px);
+        padding: 20px;
+    }
+
+    /* --- FIX SCROLLBAR / SCROLL EN LAYOUT DESKTOP --- */
+    /* Evita “doble scroll” y que el scroll se quede/clavé en algunos layouts */
+    /* body no debe bloquear el scroll global en desktop; el scroll lo maneja el sidebar */
+    body {
+        overflow: auto;
+    }
+
+
+    /* Asegura que el sidebar sea el contenedor scrollable estable */
+    .app-shell {
+        min-height: calc(100vh - 70px);
+        height: auto;
+    }
+
+    .app-sidebar {
+        width: 290px;
+        /* Consistencia de la caja scrollable */
+        top: 72px;
+        min-height: calc(100vh - 72px);
+        height: calc(100vh - 72px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: auto;
+    }
+
+    /* El contenido principal debe comportarse normal (sin scroll interno raro) */
+    .content {
+        overflow: visible;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+}
+
+
+
+
 
 /* Utilidades adicionales */
 .text-xs { font-size: 0.75rem; }
@@ -2158,8 +2222,9 @@ main.sesion-ui .sesion-card-header h3 {
     .progress { height: 6px; border-radius: 10px; }
     .badge-status { font-size: 10px; font-weight: 900; padding: 5px 10px; }
 
-/* ==========monitores */
 
+    
+/* ==========monitores */
 
 :root {
     --unamba-blue: #003a6d;
@@ -3272,107 +3337,58 @@ body {
 }
 
 
-/* ==========================================================================
-   SOLUCIÓN MAESTRA RESPONSIVE 
-   ========================================================================== */
+/* ============================================================
+   RESETEO TOTAL DE LAYOUT PARA PC (A partir de 768px)
+   ============================================================ */
+@media (min-width: 769px) {
+    /* 1. Forzamos el contenedor padre a ser un bloque flexible sin desbordamiento */
+    body, html {
+        overflow-x: hidden !important;
+        width: 100% !important;
+    }
 
-@media (max-width: 991px) {
-    /* 1. Resetear el contenedor principal */
     .app-shell {
         display: flex !important;
-        flex-direction: column !important; /* Apilar menú y contenido */
+        flex-direction: row !important;
+        width: 100% !important;
+        min-height: calc(100vh - 70px);
+        align-items: stretch !important;
     }
 
-    /* 2. Arreglar Sidebar (Menú azul) */
+    /* 2. Unificamos el Sidebar (tienes dos nombres de clase en tu CSS) */
     .sidebar, .app-sidebar {
-        width: 100% !important;   /* Ocupar todo el ancho en móvil */
-        position: relative !important; /* Quitar el pegado fijo que estorba */
+        width: 280px !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+        position: relative !important; /* Cambiamos de fixed a relative para que flexbox lo controle */
         top: 0 !important;
-        left: 0 !important;
-        height: auto !important;   /* Que crezca según sus items */
-        min-height: auto !important;
-        margin-bottom: 10px !important;
-        box-shadow: none !important;
-        border-radius: 0 0 15px 15px !important;
-        padding: 10px !important;
-    }
-
-    /* 3. Arreglar Contenido Principal (Gráficos y Tablas) */
-    .content, .main-content, main, .sesion-ui {
-        width: 100% !important;    /* Forzar ancho total */
-        max-width: 100% !important;
-        margin-left: 0 !important; /* Quitar el hueco del menú lateral */
-        padding: 15px !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
         display: block !important;
+        float: none !important;
     }
 
-    /* 4. Arreglar las cuadrículas de tarjetas (Dashboard) */
-    /* Esto hará que las cajitas se pongan una debajo de otra */
-    .cards, 
-    .student-kpi-grid, 
-    .admin-kpi-grid, 
-    .mis-meta-grid, 
-    .admin-quick-actions,
-    .stat-card-container,
-    .row {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 15px !important;
+    /* 3. Corregimos el área de contenido (el cuadro gris de fondo) */
+    .content {
+        flex: 1 !important; /* Esto obliga a que ocupe todo el ancho restante */
+        width: auto !important;
+        margin-left: 0 !important; /* IMPORTANTE: Quitamos el margen manual */
+        margin-top: 0 !important;
+        padding: 30px !important;
+        display: block !important;
+        min-width: 0 !important; /* Evita que las tablas lo estiren */
     }
 
-    /* Forzar que cada columna de Bootstrap ocupe el 100% */
-    .col-md-3, .col-md-4, .col-md-6, .col-lg-3, .col-sm-6, [class*="col-"] {
+    /* 4. Forzamos que las tarjetas blancas ocupen el 100% de ese espacio */
+    .admin-panel, .card-academic, .content-card, .table-responsive {
         width: 100% !important;
         max-width: 100% !important;
-        flex: 0 0 100% !important;
-        margin-bottom: 10px !important;
+        margin-right: 0 !important;
     }
 
-    /* 5. Ajustar elementos visuales grandes */
-    .admin-hero, .student-hero, .info-banner {
-        flex-direction: column !important;
-        text-align: center !important;
-        gap: 15px !important;
-    }
-
-    .topbar {
-        flex-direction: column !important;
-        height: auto !important;
-        padding: 10px !important;
-        text-align: center !important;
-    }
-
-    .topbar-nav {
-        margin-top: 10px !important;
-        justify-content: center !important;
-    }
-
-    /* 6. Evitar que las tablas rompan el diseño */
-    .table-responsive, .admin-table-wrap, .student-table-wrap, .sesion-table-wrap {
-        display: block !important;
+    /* 5. Aseguramos que las tablas no se salgan */
+    table {
         width: 100% !important;
-        overflow-x: auto !important; /* Permitir scroll horizontal en tablas largas */
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* 7. Ajustar gráficos */
-    canvas, .chart-container {
-        width: 100% !important;
-        height: auto !important;
-        max-height: 300px !important;
     }
 }
-
-/* Ajuste extra para celulares muy pequeños */
-@media (max-width: 480px) {
-    .topbar-title {
-        font-size: 14px !important;
-    }
-    .admin-hero h2, .student-hero h2 {
-        font-size: 20px !important;
-    }
-}
-
-/* ==========DASHBOARD= ADMIN =*/
-/* ==========DASHBOARD= ADMIN =*/
-/* ==========DASHBOARD= ADMIN =*/
